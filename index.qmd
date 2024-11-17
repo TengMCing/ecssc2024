@@ -123,6 +123,41 @@ ori_dat %>%
 
 ::::
 
+---
+
+## 🔬Null residual plots
+
+
+::: {.columns}
+::: {.column width=50%}
+
+```{r fig.width=5, fig.height=5, fig.retina=3}
+set.seed(452)
+mod$gen_lineup(300, k = 20, pos = 11) %>%
+  filter(null != FALSE) %>%
+  bind_rows(ori_dat %>% mutate(k = 11, null = FALSE)) %>%
+  VI_MODEL$plot_lineup(theme = theme_light(base_size = 12),
+                       remove_grid_line = TRUE,
+                       remove_axis = TRUE)
+```
+
+
+:::
+::: {.column width=50%}
+
+- Assume the fitted model is **correctly specified** and **simulate residuals from it**.
+- Left-triangle shape is **relatively common**.
+
+:::
+:::
+
+
+
+
+
+
+
+
 
 ---
 
@@ -411,7 +446,7 @@ bind_rows(dat_shape_1, dat_shape_2, dat_shape_3, dat_shape_4) %>%
 
 The `autovi` package provides automated assessment of residual plot with **computer vision models**. 
 
-It estimates **visual signal strength (VSS)**, which is the KL divergence between a residual plot and a reference **null residual plot**.
+It estimates **visual signal strength (VSS)**, which quantifies the disparity between the **actual residual distribution** and the **reference distribution**, based on KL divergence.
 
 #### Core Methods
 
